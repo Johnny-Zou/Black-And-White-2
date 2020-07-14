@@ -1,0 +1,9 @@
+# dependencies
+/node_modules
+
+# babel build
+/build
+
+# MongoDb data
+/data/*
+!/data/README

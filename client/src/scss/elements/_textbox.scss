@@ -1,0 +1,41 @@
+.textbox {
+    position: relative;
+    &.textbox--white {
+        // padding: 15px;
+        margin: 15px;
+        width: 350px;
+
+        color: black;
+        background-color: $pale_white;
+
+        display: flex;
+        flex-direction: row;
+
+        transition: background-color 0.1s;
+        p {
+            margin: 15px;
+            pointer-events: none;
+            position: relative;
+        }
+
+        input {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            margin-right: 15px;
+            background-color: transparent;
+
+            font-size: 1em;
+            text-align: right;
+
+            flex: 1;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        &:focus-within {
+            background-color: white;
+        }
+    }
+}

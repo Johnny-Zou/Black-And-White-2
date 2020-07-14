@@ -1,0 +1,11 @@
+.lamp {
+	display: flex;
+	flex-direction: column;
+	.lamp__element{
+		background-color: white;
+		width: 50px;
+		height: 100px;
+		margin-bottom: 1px;
+		margin-top: 1px;
+	}
+}

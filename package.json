@@ -1,0 +1,33 @@
+{
+  "name": "Black_And_White2_Backend",
+  "version": "1.0.0",
+  "description": "Black and White game backend",
+  "main": "server.js",
+  "scripts": {
+    "build": "babel src -d build",
+    "db_init": "node build/db/db_init.js",
+    "start": "npm run build && npm run db_init && node build/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Johnny-Zou/Black-And-White-2.git"
+  },
+  "author": "Johnny Zou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Johnny-Zou/Black-And-White-2/issues"
+  },
+  "homepage": "https://github.com/Johnny-Zou/Black-And-White-2/#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.7",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.6"
+  }
+}

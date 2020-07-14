@@ -1,0 +1,23 @@
+.counter {
+	background-color: $pale_white;
+	height: 100px;
+	width: 100px;
+	clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	transition: background-color 0.1s;
+
+	&:hover {
+		background-color: white;
+	}
+
+	p {
+		user-select: none;
+		font-weight: 500;
+		font-size: 2em;
+		color: black;
+	}
+}

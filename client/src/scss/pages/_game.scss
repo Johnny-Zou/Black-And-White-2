@@ -1,0 +1,33 @@
+.appContainer .page.page__game {
+	// Children Components
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+
+	.game__player {
+		margin-left: 1vw;
+	}
+
+	.game__body {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		.game__status {
+			margin-bottom: 10px;
+			color: white;
+			font-size: 1.4em;
+		}
+		.chat {
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+		.counter {
+			margin-top: 10px;
+		}
+	}
+
+	.game__opponent {
+		margin-right: 1vw;
+	}
+}
