@@ -7,7 +7,7 @@ class Lamp extends Component {
 
     render(){
         return(
-            <div className="lamp">
+            <div className={"lamp " + "lamp--" + this.props.type}>
                 <div className="lamp_overlay"></div>
                 <div className="lamp__element"></div>
                 <div className="lamp__element"></div>

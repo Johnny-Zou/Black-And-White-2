@@ -11,6 +11,11 @@ class WinsIndicator extends Component {
     render(){
         return(
             <div className="winsIndicator">
+                <div className="winsIndicator__circle"></div>
+                <div className="winsIndicator__circle"></div>
+                <div className="winsIndicator__circle"></div>
+                <div className="winsIndicator__circle"></div>
+                <div className="winsIndicator__circle"></div>
             </div>
         );
     }

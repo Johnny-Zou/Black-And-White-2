@@ -16,9 +16,6 @@ import Footer from './Footer.js';
 // Redux
 import { connect } from 'react-redux';
 
-// Actions
-import { changePage } from './actions/changePage.js';
-
 class App extends Component {
     constructor(props){
         super(props);
@@ -56,4 +53,4 @@ function mapStateToProps(state){
     });
 };
 
-export default connect(mapStateToProps, { changePage })(App);
+export default connect(mapStateToProps, { })(App);

@@ -23,11 +23,11 @@ io.on('connection', function(socket){
 	console.log("socket has connected");
 });
 
-global.data.mongoDB.connect().catch(function(err){
-	console.log("Failed to connect to database with error:", err);
-}).finally(function(){
+// global.data.mongoDB.connect().catch(function(err){
+	// console.log("Failed to connect to database with error:", err);
+// }).finally(function(){
 	server.listen(8000, () => {
 		console.log('Example app listening on port 8000!');
 	});	
-});
+// });
 

@@ -1,7 +1,7 @@
 import { CHANGE_PAGE } from '../actions/types.js';
 
 const initialState = {
-    currPage: "Menu"
+    currPage: "Game"
 };
 
 export default function(state = initialState, action) {

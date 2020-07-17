@@ -1,19 +1,29 @@
 import React, {Component} from 'react';
+import Button from "../elements/Button.js";
+
+// Redux
+import { connect } from 'react-redux';
+
+// Actions
+import { changePage } from '../actions/changePage.js';
 
 class Credits extends Component {
     constructor(props){
         super(props);
-        // state
-        this.state = {
-        };
     }
+
+    handlePageChange(newPage){
+        this.props.changePage(newPage);
+    }
+
 
     render(){
         return(
             <div className="page page__credits">
+                <Button type="white" title="Back" clickFn={this.handlePageChange.bind(this,"Menu")}/>
             </div>
         );
     }
 }
 
-export default Credits;
+export default connect(null, { changePage })(Credits);

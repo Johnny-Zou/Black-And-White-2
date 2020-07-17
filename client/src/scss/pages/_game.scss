@@ -5,7 +5,28 @@
 	align-items: center;
 
 	.game__player {
-		margin-left: 1vw;
+		
+		.game__playerName{
+			position: absolute;
+			color: white;
+			top: 0;
+		}
+
+		&.game__player--left{
+			margin-left: 1vw;
+			.game__playerName{
+				left: 1vw;
+			}
+		}
+
+		&.game__player--right{
+			margin-right: 1vw;
+			.game__playerName{
+				right: 1vw;
+			}
+		}
+
+		
 	}
 
 	.game__body {
@@ -25,9 +46,5 @@
 		.counter {
 			margin-top: 10px;
 		}
-	}
-
-	.game__opponent {
-		margin-right: 1vw;
 	}
 }

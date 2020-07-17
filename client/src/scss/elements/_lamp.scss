@@ -8,4 +8,12 @@
 		margin-bottom: 1px;
 		margin-top: 1px;
 	}
+
+	&.lamp--left{
+		align-items: flex-start;
+	}
+
+	&.lamp--right{
+		align-items: flex-end;
+	}
 }

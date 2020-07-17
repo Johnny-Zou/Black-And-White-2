@@ -4,9 +4,9 @@
   "description": "Black and White game backend",
   "main": "server.js",
   "scripts": {
-    "build": "babel src -d build",
+    "build": "babel src -d build && cd ./client && npm run build",
     "db_init": "node build/db/db_init.js",
-    "start": "npm run build && npm run db_init && node build/server.js"
+    "start": "npm run build && node build/server.js"
   },
   "repository": {
     "type": "git",

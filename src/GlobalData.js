@@ -1,11 +1,11 @@
 import Game from './Game.js';
-import Database from './db/Database.js';
+// import Database from './db/Database.js';
 
 class GlobalData {
 	constructor(){
 		this.gameArray = {};
 		this.maxGames = 10;
-		this.mongoDB = new Database();
+		// this.mongoDB = new Database();
 	}
 
 	createNewGame(){
@@ -13,7 +13,7 @@ class GlobalData {
 			var game_id = this.generate_unique_game_id();
 
 			this.gameArray[game_id] = new Game(game_id);
-			this.mongoDB.insertNewGame(gameid);
+			// this.mongoDB.insertNewGame(gameid);
 		} else {
 			console.log("Max games exceeded!")
 		}

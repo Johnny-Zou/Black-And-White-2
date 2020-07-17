@@ -6,8 +6,8 @@ class Textbox extends Component {
 
         this.inputRef = React.createRef();
         this.setFocus = this.setFocus.bind(this);
-
     }
+
 
     setFocus(){
         this.inputRef.current.focus();
