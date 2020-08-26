@@ -1,7 +1,8 @@
-import { CHANGE_NAME, CHANGE_OPPONENT_NAME, CHANGE_USE_POINT_VAL } from '../actions/types.js';
+import { CHANGE_NAME, CHANGE_OPPONENT_NAME, CHANGE_USE_POINT_VAL, CHANGE_GAME_ID } from '../actions/types.js';
 
 const initialState = {
-    name: "Johnny",
+    name: "",
+    game_id: "",
     opponent_name: "???",
     max_points: 99,
     use_point_val: 0
@@ -23,6 +24,11 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 use_point_val: action.payload
+            };
+        case CHANGE_GAME_ID:
+            return {
+                ...state,
+                game_id: action.payload
             };
     default:
         return state;

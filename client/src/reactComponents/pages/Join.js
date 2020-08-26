@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 // Actions
 import { changePage } from '../actions/changePage.js';
-import { changeName } from '../actions/changeName.js';
+import { changeName, changeGameID } from '../actions/changeGame.js';
 
 class Join extends Component {
     constructor(props){
@@ -25,8 +25,10 @@ class Join extends Component {
 
     joinGame(){
         var name = this.aliasRef.current.inputRef.current.value;
+        var game_id = this.gameIDRef.current.inputRef.current.value;
         
         this.props.changeName(name);
+        this.props.changeGameID(game_id);
         this.props.changePage("Game");
     }
 
@@ -44,4 +46,4 @@ class Join extends Component {
     }
 }
 
-export default connect(null, { changePage, changeName })(Join);
+export default connect(null, { changePage, changeName, changeGameID })(Join);

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import io from'socket.io-client';
 
 import Lamp from "../elements/Lamp.js"
 import WinsIndicator from "../elements/WinsIndicator.js"
@@ -9,15 +10,37 @@ import Counter from "../elements/Counter.js"
 import { connect } from 'react-redux';
 
 // Actions
-import { changeUsePointVal } from '../actions/changeUsePointVal.js';
+import { changeUsePointVal, changeGameID, changeOpponentName } from '../actions/changeGame.js';
 
 class Game extends Component {
     constructor(props){
         super(props);
 
         this.handleCounterScroll = this.handleCounterScroll.bind(this);
+        this.joinGameRoomCallback = this.joinGameRoomCallback.bind(this);
+
+        // Socket Event Handlers
+        this.updateOpponentName = this.updateOpponentName.bind(this);
+        this.handleError = this.handleError.bind(this);
     }
 
+    // React Lifecycle
+    componentDidMount(){
+        this.socket = io.connect('/');
+
+        var sendData = {
+            name: this.props.name,
+            game_id: this.props.game_id,
+        };
+
+        this.socket.emit("joinGameRoom", sendData, this.joinGameRoomCallback);
+        
+        // Handlers
+        this.socket.on("opponentJoined",this.updateOpponentName);
+        this.socket.on("error", this.handleError);
+    }
+
+    // Handlers
     handleCounterScroll(e){
         var newVal = this.props.use_point_val;
         if(e.deltaY < 0){
@@ -30,6 +53,34 @@ class Game extends Component {
             }
         }
         this.props.changeUsePointVal(newVal);
+    }
+
+    // SocketIO
+    joinGameRoomCallback(data){
+        console.log(data)
+        if (this.props.game_id == ""){
+            // change the game id to the game id sent by the server
+            this.props.changeGameID(data.game_id);
+        }
+
+        this.updateOpponentName(data);        
+    }
+
+    updateOpponentName(data){
+        if(data.opponent_name){
+            this.props.changeOpponentName(data.opponent_name);
+        }
+    }
+
+    handleError(data){
+        console.log(data);
+        switch(data.id) {
+            case 1:
+                console.log(data.msg);
+                break;
+            default:
+                console.log(data.msg);
+        }
     }
 
     render(){
@@ -59,9 +110,10 @@ function mapStateToProps(state){
     return({
         name: state.game.name,
         opponent_name: state.game.opponent_name,
+        game_id: state.game.game_id,
         max_points: state.game.max_points,
         use_point_val: state.game.use_point_val,
     });
 };
 
-export default connect(mapStateToProps, {changeUsePointVal})(Game);
+export default connect(mapStateToProps, {changeUsePointVal,changeGameID,changeOpponentName})(Game);

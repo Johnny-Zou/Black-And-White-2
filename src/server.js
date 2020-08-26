@@ -1,10 +1,13 @@
 import express from 'express';
 import http from 'http';
 import socketio from 'socket.io';
+import path from 'path';
+
 import routes from './routes.js';
 import apiRoutes from "./api/apiRoutes.js";
-import path from 'path';
+
 import GlobalData from './GlobalData.js';
+import { joinGameRoom } from './socket.js';
 
 global.data = new GlobalData();
 
@@ -21,6 +24,8 @@ app.use('/',routes);
 
 io.on('connection', function(socket){
 	console.log("socket has connected");
+
+	socket.on("joinGameRoom", joinGameRoom.bind(this,io,socket));
 });
 
 // global.data.mongoDB.connect().catch(function(err){
