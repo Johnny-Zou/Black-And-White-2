@@ -1,4 +1,5 @@
 export function joinGameRoom(io, socket, data, callback){
+	var startGame = false;
 	if(data.game_id == ""){
 		// create a new gameroom
 		var game_id = global.data.createNewGame();
@@ -21,13 +22,14 @@ export function joinGameRoom(io, socket, data, callback){
 		// Tell the player waiting the name of the opponent who has joined
 		var sendData_waiting = {
 			"opponent_name": data.name
-		}
-		io.to(game_id).emit("opponentJoined",sendData_waiting)
+		};
+		io.to(game_id).emit("opponentJoined",sendData_waiting);
 
 		var sendData_joining = {
 			game_id: game_id,
 			opponent_name: global.data.gameDict[game_id].players[0]
 		};
+		startGame = true;
 	}
 
 	// Add the new player
@@ -36,4 +38,13 @@ export function joinGameRoom(io, socket, data, callback){
 
 	// call callback
 	callback(sendData_joining);
+
+	// Start the Game
+	if(startGame) {
+		var startPlayer = global.data.gameDict[game_id].startGame();
+		var sendData_starting = {
+			startPlayer: startPlayer
+		};
+		io.to(game_id).emit("startGame",sendData_starting);
+	}
 };

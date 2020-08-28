@@ -22,6 +22,12 @@ class Game extends Component {
         // Socket Event Handlers
         this.updateOpponentName = this.updateOpponentName.bind(this);
         this.handleError = this.handleError.bind(this);
+        this.startGame = this.startGame.bind(this);
+
+        // State
+        this.state = {
+            info: "Waiting for opponent..."
+        };
     }
 
     // React Lifecycle
@@ -38,6 +44,7 @@ class Game extends Component {
         // Handlers
         this.socket.on("opponentJoined",this.updateOpponentName);
         this.socket.on("error", this.handleError);
+        this.socket.on("startGame", this.startGame);
     }
 
     // Handlers
@@ -83,6 +90,25 @@ class Game extends Component {
         }
     }
 
+    startGame(data) {
+        // Initialize Start Counter
+        var counter = 3;
+        const startCounterInterval = setInterval(() => {
+            var newMsg = "Starting Game in " + counter + "...";
+            counter -= 1;
+            if(counter == 0) {
+                clearInterval(startCounterInterval);
+                // Announce first player
+                setTimeout(() => {
+                    var startPlayer = data.startPlayer;
+                    var newMsg = startPlayer + " to play...";
+                    this.setState({info: newMsg});
+                },1000);
+            }
+            this.setState({info: newMsg});
+        }, 1000);
+    }
+
     render(){
         return(
             <div className="page page__game">
@@ -92,7 +118,7 @@ class Game extends Component {
                     <WinsIndicator/>
                 </div>
                 <div className="game__body">
-                    <div className="game__status">Waiting for opponent...</div>
+                    <div ref={this.infoRef} className="game__status">{this.state.info}</div>
                     <Chat/>
                     <Counter scrollWheelFn={this.handleCounterScroll} value={this.props.use_point_val}/>
                 </div>
