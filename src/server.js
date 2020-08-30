@@ -7,7 +7,7 @@ import routes from './routes.js';
 import apiRoutes from "./api/apiRoutes.js";
 
 import GlobalData from './GlobalData.js';
-import { joinGameRoom } from './socket.js';
+import { joinGameRoom, playPoints } from './socket.js';
 
 global.data = new GlobalData();
 
@@ -26,6 +26,7 @@ io.on('connection', function(socket){
 	console.log("socket has connected");
 
 	socket.on("joinGameRoom", joinGameRoom.bind(this,io,socket));
+	socket.on("playPoints", playPoints.bind(this,io,socket));
 });
 
 // global.data.mongoDB.connect().catch(function(err){

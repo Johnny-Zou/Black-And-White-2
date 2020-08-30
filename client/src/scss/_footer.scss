@@ -13,6 +13,8 @@
 		padding-right: 30px;
 		transform: translateY(-50%);
 		color: white;
+
+		pointer-events: none;
 		.footer__pageTextFade {
 			position: absolute;
 		    top: 50%;
@@ -23,5 +25,5 @@
 		    height: 100%;
 		    width: 100%;
 		}
-	}
+	}	
 }

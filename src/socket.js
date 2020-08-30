@@ -27,13 +27,15 @@ export function joinGameRoom(io, socket, data, callback){
 
 		var sendData_joining = {
 			game_id: game_id,
-			opponent_name: global.data.gameDict[game_id].players[0]
+			opponent_name: global.data.gameDict[game_id].players[0].name
 		};
 		startGame = true;
 	}
 
 	// Add the new player
-	global.data.gameDict[game_id].addPlayer(data.name);
+	global.data.gameDict[game_id].addPlayer(socket.id, data.name);
+	socket.name = data.name;
+	socket.game_id = game_id;
 	socket.join(game_id);
 
 	// call callback
@@ -42,9 +44,21 @@ export function joinGameRoom(io, socket, data, callback){
 	// Start the Game
 	if(startGame) {
 		var startPlayer = global.data.gameDict[game_id].startGame();
+		console.log(startPlayer);
 		var sendData_starting = {
-			startPlayer: startPlayer
+			startPlayer: startPlayer.name
 		};
 		io.to(game_id).emit("startGame",sendData_starting);
 	}
+};
+
+export function playPoints(io, socket, data, callback) {
+	// Check that the correct player is playing the points
+	var game_id = socket.game_id;
+
+	if(global.data.gameDict[game_id].currPlayer != global.data.gameDict[game_id].player_id_to_index(socket.id)) {
+		return;
+	}
+
+	
 };
