@@ -3,7 +3,6 @@ class Player {
 		// Player ID = Socket ID
 		this.id = player_id;
 		this.name = player_name;
-		this.total_points = 99;
 	}
 }
 

@@ -17,34 +17,45 @@ class Game extends Component {
         super(props);
 
         this.handleCounterScroll = this.handleCounterScroll.bind(this);
-        this.joinGameRoomCallback = this.joinGameRoomCallback.bind(this);
 
-        // Socket Event Handlers
+        // Socket Event Handlers and emitters
         this.updateOpponentName = this.updateOpponentName.bind(this);
         this.handleError = this.handleError.bind(this);
         this.startGame = this.startGame.bind(this);
+        this.updateLamps = this.updateLamps.bind(this);
+        this.updateScore = this.updateScore.bind(this);
+        this.updateInfo = this.updateInfo.bind(this);
+        this.joinGameRoomCallback = this.joinGameRoomCallback.bind(this);
+
+        this.playPoints = this.playPoints.bind(this);
 
         // State
         this.state = {
-            info: "Waiting for opponent..."
+            info: "Waiting for opponent...",
+            socket: null
         };
     }
 
     // React Lifecycle
     componentDidMount(){
-        this.socket = io.connect('/');
+        var clientSocket = io.connect('/');
+
+        this.setState({socket: clientSocket});
 
         var sendData = {
             name: this.props.name,
             game_id: this.props.game_id,
         };
 
-        this.socket.emit("joinGameRoom", sendData, this.joinGameRoomCallback);
+        clientSocket.emit("joinGameRoom", sendData, this.joinGameRoomCallback);
         
         // Handlers
-        this.socket.on("opponentJoined",this.updateOpponentName);
-        this.socket.on("error", this.handleError);
-        this.socket.on("startGame", this.startGame);
+        clientSocket.on("opponentJoined",this.updateOpponentName);
+        clientSocket.on("error", this.handleError);
+        clientSocket.on("startGame", this.startGame);
+        clientSocket.on("updateLamps",this.updateLamps);
+        clientSocket.on("updateScore",this.updateScore);
+        clientSocket.on("updateInfo",this.updateInfo);
     }
 
     // Handlers
@@ -63,6 +74,15 @@ class Game extends Component {
     }
 
     // SocketIO
+    playPoints(){
+        var clientSocket = this.state.socket;
+
+        var sendData = {
+            points: this.props.use_point_val
+        }
+        clientSocket.emit("playPoints",sendData);
+    }
+
     joinGameRoomCallback(data){
         console.log(data)
         if (this.props.game_id == ""){
@@ -90,7 +110,7 @@ class Game extends Component {
         }
     }
 
-    startGame(data) {
+    startGame(data){
         // Initialize Start Counter
         var counter = 3;
         const startCounterInterval = setInterval(() => {
@@ -109,6 +129,21 @@ class Game extends Component {
         }, 1000);
     }
 
+    updateLamps(data){
+        console.log(data);
+    }
+
+    updateScore(data){
+        console.log(data);
+    }
+
+    updateInfo(data){
+        var newMsg = data.info;
+        console.log(newMsg);
+        this.setState({info: newMsg});
+    }
+
+
     render(){
         return(
             <div className="page page__game">
@@ -120,7 +155,7 @@ class Game extends Component {
                 <div className="game__body">
                     <div ref={this.infoRef} className="game__status">{this.state.info}</div>
                     <Chat/>
-                    <Counter scrollWheelFn={this.handleCounterScroll} value={this.props.use_point_val}/>
+                    <Counter clickFn={this.playPoints} scrollWheelFn={this.handleCounterScroll} value={this.props.use_point_val}/>
                 </div>
                 <div className="game__player game__player--right">
                     <h1 className="game__playerName">{this.props.opponent_name}</h1>

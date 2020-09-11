@@ -7,7 +7,7 @@ class Counter extends Component {
 
     render(){
         return(
-            <div className="counter" onWheel={this.props.scrollWheelFn}>
+            <div onClick={this.props.clickFn} className="counter" onWheel={this.props.scrollWheelFn}>
                 <p>{this.props.value}</p>
             </div>
         );

@@ -10,16 +10,16 @@ The rules are simple, each player starts off with a total of 99 points. The play
 Lets say we have players A and B, then:
 
 1. A plays a number
-2. B recieves a color depending on What A plays
-	* If A plays a number greater or equal to 10, B recieves WHITE
+2. B receives a color depending on What A plays
+	* If A plays a number greater or equal to 10, B receives WHITE
 	* if A plays a number less than 10, B receives BLACK
-3. B also recieves information about both's players current LAMP status
+3. B also receives information about both players current LAMP status
 4. B players a number
 5. The round concludes and information is given to each player
 	* Winner of last round
 	* Current score 
 	* Both player's LAMP status
-6. New round starts with the previous round's winner going first
+6. New round starts with the previous round winner going first
 	* In the event of a tie, points are still deducted from totals, however the first player of the previous round now plays second
 
 ## LAMP
