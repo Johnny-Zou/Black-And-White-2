@@ -102,12 +102,12 @@ function updateClientLamps(io,socket,game_id,lastPlayer){
 
 	var p1_sendData = {
 		"points": global.data.gameDict[game_id].total_pts[lastPlayer],
-		"lamps": global.data.gameDict[game_id].getLamps(lastPlayer),
+		"lamps": global.data.gameDict[game_id].getLamps(otherPlayer),
 	};
 
 	var p2_sendData = {
 		"points": global.data.gameDict[game_id].total_pts[otherPlayer],
-		"lamps": global.data.gameDict[game_id].getLamps(otherPlayer)
+		"lamps": global.data.gameDict[game_id].getLamps(lastPlayer)
 	};
 
 	io.to(p1_id).emit("updateLamps",p1_sendData);
@@ -115,12 +115,24 @@ function updateClientLamps(io,socket,game_id,lastPlayer){
 }
 
 function updateClientScore(io,socket,game_id,winner){
-	var sendData = {
+	var score = global.data.gameDict[game_id].score;
+
+	var p1_id = global.data.gameDict[game_id].players[0].id;
+	var p2_id = global.data.gameDict[game_id].players[1].id;
+
+
+	var p1_sendData = {
 		"score": global.data.gameDict[game_id].score,
 		"winner": global.data.gameDict[game_id].players[winner].name
 	};
 
-	io.to(game_id).emit("updateScore",sendData);
+	var p2_sendData = {
+		"score": global.data.gameDict[game_id].score.slice().reverse(),
+		"winner": global.data.gameDict[game_id].players[winner].name
+	};
+
+	io.to(p1_id).emit("updateScore",p1_sendData);
+	io.to(p2_id).emit("updateScore",p2_sendData);
 }
 
 function updateClientInfo(io,socket,game_id,info){

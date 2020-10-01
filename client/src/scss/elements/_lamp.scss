@@ -1,19 +1,57 @@
 .lamp {
+	max-height: 450px;
+	height: 60vh;
 	display: flex;
-	flex-direction: column;
-	.lamp__element{
-		background-color: white;
-		width: 50px;
-		height: 100px;
-		margin-bottom: 1px;
-		margin-top: 1px;
+
+	.lamp__elWrapper {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+
+		.lamp__element{
+			background: rgba(50,50,50,1); //JS OVERRIDE
+			width: 50px;
+			height: calc(20% - 4px);
+			margin-bottom: 2px;
+			margin-top: 2px;
+			position: relative;
+			overflow: hidden;
+			transition: all linear 0.2s;
+
+			.lamp__elementFill{
+				position: absolute;
+				width: 100%;
+				height: 100%; // JS OVERRIDE
+				bottom: 0;
+				background: rgba(175,175,175,1);
+				transition: all linear 0.2s;
+			}
+
+			&:first-child{
+				border-top-left-radius: 50%;
+				border-top-right-radius: 50%;
+			}
+
+			&:last-child{
+				border-bottom-left-radius: 50%;
+				border-bottom-right-radius: 50%;
+			}
+		}
+
+		&:hover {
+			.lamp__element {
+				.lamp__elementFill {
+					background: rgba(240,240,240,1);
+				}
+			}
+		}
 	}
 
 	&.lamp--left{
-		align-items: flex-start;
+		justify-content: flex-start;
 	}
 
 	&.lamp--right{
-		align-items: flex-end;
+		justify-content: flex-end;
 	}
 }

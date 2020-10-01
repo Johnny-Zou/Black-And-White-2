@@ -1,11 +1,13 @@
-import { CHANGE_NAME, CHANGE_OPPONENT_NAME, CHANGE_USE_POINT_VAL, CHANGE_GAME_ID } from '../actions/types.js';
+import { CHANGE_NAME, CHANGE_OPPONENT_NAME, CHANGE_USE_POINT_VAL, CHANGE_GAME_ID, CHANGE_GAME_SCORE, CHANGE_MAX_POINTS, CHANGE_OPPONENT_LAMP} from '../actions/types.js';
 
 const initialState = {
     name: "",
     game_id: "",
     opponent_name: "???",
     max_points: 99,
-    use_point_val: 0
+    use_point_val: 0,
+    score: [0,0],
+    opponent_lamps: 5
 };
 
 export default function(state = initialState, action) {
@@ -30,6 +32,21 @@ export default function(state = initialState, action) {
                 ...state,
                 game_id: action.payload
             };
+        case CHANGE_GAME_SCORE:
+            return {
+                ...state,
+                score: action.payload
+            }
+        case CHANGE_MAX_POINTS:
+            return {
+                ...state,
+                max_points: action.payload
+            }
+        case CHANGE_OPPONENT_LAMP:
+            return {
+                ...state,
+                opponent_lamps: action.payload
+            }
     default:
         return state;
     }

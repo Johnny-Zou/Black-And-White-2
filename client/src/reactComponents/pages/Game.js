@@ -10,7 +10,7 @@ import Counter from "../elements/Counter.js"
 import { connect } from 'react-redux';
 
 // Actions
-import { changeUsePointVal, changeGameID, changeOpponentName } from '../actions/changeGame.js';
+import { changeUsePointVal, changeGameID, changeOpponentName, changeScore, changeMaxPointVal, changeOpponentLamp} from '../actions/changeGame.js';
 
 class Game extends Component {
     constructor(props){
@@ -131,10 +131,13 @@ class Game extends Component {
 
     updateLamps(data){
         console.log(data);
+        this.props.changeMaxPointVal(data.points);
+        this.props.changeOpponentLamp(data.lamps);
     }
 
     updateScore(data){
         console.log(data);
+        this.props.changeScore(data.score);
     }
 
     updateInfo(data){
@@ -149,18 +152,18 @@ class Game extends Component {
             <div className="page page__game">
                 <div className="game__player game__player--left">
                     <h1 className="game__playerName">{this.props.name}</h1>
-                    <Lamp type="left"/>
-                    <WinsIndicator/>
+                    <Lamp type="left" mode="player" max_points={this.props.max_points}/>
+                    <WinsIndicator winCount={this.props.score[0]} />
                 </div>
                 <div className="game__body">
-                    <div ref={this.infoRef} className="game__status">{this.state.info}</div>
+                    <div className="game__status">{this.state.info}</div>
                     <Chat/>
                     <Counter clickFn={this.playPoints} scrollWheelFn={this.handleCounterScroll} value={this.props.use_point_val}/>
                 </div>
                 <div className="game__player game__player--right">
                     <h1 className="game__playerName">{this.props.opponent_name}</h1>
-                    <Lamp type="right"/>
-                    <WinsIndicator/>
+                    <Lamp type="right" mode="opponent" lamps={this.props.opponent_lamps}/>
+                    <WinsIndicator winCount={this.props.score[1]}/>
                 </div>
             </div>
         );
@@ -174,7 +177,9 @@ function mapStateToProps(state){
         game_id: state.game.game_id,
         max_points: state.game.max_points,
         use_point_val: state.game.use_point_val,
+        score: state.game.score,
+        opponent_lamps: state.game.opponent_lamps
     });
 };
 
-export default connect(mapStateToProps, {changeUsePointVal,changeGameID,changeOpponentName})(Game);
+export default connect(mapStateToProps, {changeUsePointVal,changeGameID,changeOpponentName, changeScore, changeMaxPointVal, changeOpponentLamp })(Game);
