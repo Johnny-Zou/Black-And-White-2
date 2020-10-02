@@ -82,7 +82,9 @@ export function playPoints(io, socket, data, callback) {
 
 		if (global.data.gameDict[game_id].gameEnd()){
 			global.data.gameDict[game_id].changeGameState("ENDED");
-			console.log("game ended");
+			updateClientLamps(io,socket,game_id,currentPlayer);
+			updateClientScore(io,socket,game_id,winner);
+			updateClientInfo(io,socket,game_id,global.data.gameDict[game_id].players[winner].name + " won previous round");
 			updateClientInfo(io,socket,game_id,"Game has ended");
 		} else {
 			global.data.gameDict[game_id].changeGameState("PLAYING_1");
