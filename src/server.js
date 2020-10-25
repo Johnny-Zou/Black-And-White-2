@@ -34,7 +34,7 @@ io.on('connection', function(socket){
 // global.data.mongoDB.connect().catch(function(err){
 	// console.log("Failed to connect to database with error:", err);
 // }).finally(function(){
-	server.listen(8000, () => {
+	server.listen(PORT, () => {
 		console.log('Example app listening on port ${ PORT }!');
 	});	
 // });
