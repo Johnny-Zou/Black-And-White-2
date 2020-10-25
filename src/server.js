@@ -15,6 +15,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const server = http.createServer(app);
 const io = socketio(server);
+const PORT = process.env.PORT || 8000;
 
 
 app.use(bodyParser.json());
@@ -34,7 +35,7 @@ io.on('connection', function(socket){
 	// console.log("Failed to connect to database with error:", err);
 // }).finally(function(){
 	server.listen(8000, () => {
-		console.log('Example app listening on port 8000!');
+		console.log('Example app listening on port ${ PORT }!');
 	});	
 // });
 
