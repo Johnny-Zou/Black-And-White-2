@@ -25,9 +25,14 @@ class Game extends Component {
         this.updateLamps = this.updateLamps.bind(this);
         this.updateScore = this.updateScore.bind(this);
         this.updateInfo = this.updateInfo.bind(this);
+        this.updateMessage = this.updateMessage.bind(this);
         this.joinGameRoomCallback = this.joinGameRoomCallback.bind(this);
 
         this.playPoints = this.playPoints.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+
+        this.chatRef = React.createRef();
+        console.log(this.chatRef);
 
         // State
         this.state = {
@@ -56,6 +61,7 @@ class Game extends Component {
         clientSocket.on("updateLamps",this.updateLamps);
         clientSocket.on("updateScore",this.updateScore);
         clientSocket.on("updateInfo",this.updateInfo);
+        clientSocket.on("updateMessage", this.updateMessage);
     }
 
     // Handlers
@@ -82,6 +88,16 @@ class Game extends Component {
         }
         clientSocket.emit("playPoints",sendData);
     }
+
+    sendMessage(newMessage){
+        var clientSocket = this.state.socket;
+
+        var sendData = {
+            content: newMessage
+        }
+        clientSocket.emit("sendMessage",sendData);
+    }
+
 
     joinGameRoomCallback(data){
         console.log(data)
@@ -146,6 +162,10 @@ class Game extends Component {
         this.setState({info: newMsg});
     }
 
+    updateMessage(data){
+        console.log(this.chatRef);
+        this.chatRef.current.newMessage(data.type,data.sender,data.content);
+    }
 
     render(){
         return(
@@ -157,7 +177,7 @@ class Game extends Component {
                 </div>
                 <div className="game__body">
                     <div className="game__status">{this.state.info}</div>
-                    <Chat/>
+                    <Chat ref={this.chatRef} sendMsgFn={this.sendMessage} />
                     <Counter clickFn={this.playPoints} scrollWheelFn={this.handleCounterScroll} value={this.props.use_point_val}/>
                 </div>
                 <div className="game__player game__player--right">

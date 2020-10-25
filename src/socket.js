@@ -97,6 +97,15 @@ export function playPoints(io, socket, data, callback) {
 	}	
 };
 
+export function sendMessage(io, socket, data, callback){
+	var content = data.content;
+	var game_id = socket.game_id;
+	var playerIndex = global.data.gameDict[game_id].player_id_to_index(socket.id);
+	var sender = global.data.gameDict[game_id].players[playerIndex];
+
+	updateMessage(io,socket,game_id,"playerMessage",sender,content);
+}
+
 function updateClientLamps(io,socket,game_id,lastPlayer){
 	var otherPlayer = (lastPlayer + 1) % 2;
 	var p1_id = global.data.gameDict[game_id].players[lastPlayer].id;
@@ -143,4 +152,14 @@ function updateClientInfo(io,socket,game_id,info){
 	}
 
 	io.to(game_id).emit("updateInfo",sendData);
+}
+
+function updateMessage(io,socket,game_id,type,sender,content){
+	var sendData = {
+		"type": type,
+		"sender": sender,
+		"content": content
+	}
+
+	io.to(game_id).emit("updateMessage", sendData);
 }

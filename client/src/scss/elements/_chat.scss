@@ -49,32 +49,33 @@
 	.chat__inputContainer {
 		width: 100%;
 		background-color: $pale_white;
-
-		display: flex;
-		flex-direction: row;
 		
 		transition: background-color 0.1s;
 
 		&:focus-within {
 			background-color: white;
 		}
-		.chat__input {
-			padding-top: 7.5px;
-			padding-bottom: 7.5px;
-			margin-left: 5px;
-			background-color: transparent;
-			flex: 1;
-			&:focus {
-                outline: none;
-            }
-		}
-		.chat__submit {
-			clip-path: polygon(0 10%, 0 90%, 100% 49%);
-			background-color: black;
-			width: 20px;
-			margin-top: 1px;
-			margin-bottom: 1px;
-			margin-right: 5px;
+		.chat__form{
+			display: flex;
+			flex-direction: row;
+			.chat__input {
+				padding-top: 7.5px;
+				padding-bottom: 7.5px;
+				margin-left: 5px;
+				background-color: transparent;
+				flex: 1;
+				&:focus {
+	                outline: none;
+	            }
+			}
+			.chat__submit {
+				clip-path: polygon(0 10%, 0 90%, 100% 49%);
+				background-color: black;
+				width: 20px;
+				margin-top: 1px;
+				margin-bottom: 1px;
+				margin-right: 5px;
+			}
 		}
 	}
 }

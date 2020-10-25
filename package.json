@@ -4,9 +4,11 @@
   "description": "Black and White game backend",
   "main": "server.js",
   "scripts": {
-    "build": "babel src -d build && cd ./client && npm run build",
+    "heroku-prebuild": "cd client && npm install",
+    "build": "babel src -d build",
+    "build_frontend": "cd ./client && npm run build",
     "db_init": "node build/db/db_init.js",
-    "start": "npm run build && node build/server.js"
+    "start": "npm run build_frontend && npm run build && node build/server.js"
   },
   "repository": {
     "type": "git",
