@@ -1,4 +1,11 @@
-import { CHANGE_NAME, CHANGE_OPPONENT_NAME, CHANGE_USE_POINT_VAL, CHANGE_GAME_ID, CHANGE_GAME_SCORE, CHANGE_MAX_POINTS, CHANGE_OPPONENT_LAMP} from '../actions/types.js';
+import { CHANGE_NAME,
+         CHANGE_OPPONENT_NAME, 
+         CHANGE_USE_POINT_VAL, 
+         CHANGE_GAME_ID, 
+         CHANGE_GAME_SCORE, 
+         CHANGE_MAX_POINTS, 
+         CHANGE_OPPONENT_LAMP,
+         ADD_NEW_MESSAGE } from '../actions/types.js';
 
 const initialState = {
     name: "",
@@ -7,7 +14,8 @@ const initialState = {
     max_points: 99,
     use_point_val: 0,
     score: [0,0],
-    opponent_lamps: 5
+    opponent_lamps: 5,
+    chatLog: []
 };
 
 export default function(state = initialState, action) {
@@ -47,7 +55,13 @@ export default function(state = initialState, action) {
                 ...state,
                 opponent_lamps: action.payload
             }
-    default:
-        return state;
+        case ADD_NEW_MESSAGE:
+
+            return {
+                ...state,
+                chatLog: [...state.chatLog, action.payload]
+            }
+        default:
+            return state;
     }
 }

@@ -4,7 +4,8 @@ import { CHANGE_NAME,
          CHANGE_GAME_ID, 
          CHANGE_GAME_SCORE, 
          CHANGE_MAX_POINTS,
-         CHANGE_OPPONENT_LAMP } from './types';
+         CHANGE_OPPONENT_LAMP,
+         ADD_NEW_MESSAGE } from './types';
 
 export function changeName(newName){
     return function(dispatch){
@@ -65,6 +66,15 @@ export function changeOpponentLamp(newLampVal){
         dispatch({
             type: CHANGE_OPPONENT_LAMP,
             payload: newLampVal
+        })
+    }
+}
+
+export function addNewMessage(newMsgType,newMsgSender,newMsgContent){
+    return function(dispatch){
+        dispatch({
+            type: ADD_NEW_MESSAGE,
+            payload: {"type": newMsgType, "sender": newMsgSender, "content": newMsgContent}
         })
     }
 }

@@ -10,7 +10,7 @@ import Counter from "../elements/Counter.js"
 import { connect } from 'react-redux';
 
 // Actions
-import { changeUsePointVal, changeGameID, changeOpponentName, changeScore, changeMaxPointVal, changeOpponentLamp} from '../actions/changeGame.js';
+import { changeUsePointVal, changeGameID, changeOpponentName, changeScore, changeMaxPointVal, changeOpponentLamp, addNewMessage } from '../actions/changeGame.js';
 
 class Game extends Component {
     constructor(props){
@@ -30,9 +30,6 @@ class Game extends Component {
 
         this.playPoints = this.playPoints.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
-
-        this.chatRef = React.createRef();
-        console.log(this.chatRef);
 
         // State
         this.state = {
@@ -100,7 +97,6 @@ class Game extends Component {
 
 
     joinGameRoomCallback(data){
-        console.log(data)
         if (this.props.game_id == ""){
             // change the game id to the game id sent by the server
             this.props.changeGameID(data.game_id);
@@ -116,7 +112,7 @@ class Game extends Component {
     }
 
     handleError(data){
-        console.log(data);
+        console.log("Error:",data);
         switch(data.id) {
             case 1:
                 console.log(data.msg);
@@ -163,8 +159,7 @@ class Game extends Component {
     }
 
     updateMessage(data){
-        console.log(this.chatRef);
-        this.chatRef.current.newMessage(data.type,data.sender,data.content);
+        this.props.addNewMessage(data.type,data.sender,data.content);
     }
 
     render(){
@@ -177,7 +172,7 @@ class Game extends Component {
                 </div>
                 <div className="game__body">
                     <div className="game__status">{this.state.info}</div>
-                    <Chat ref={this.chatRef} sendMsgFn={this.sendMessage} />
+                    <Chat sendMsgFn={this.sendMessage} />
                     <Counter clickFn={this.playPoints} scrollWheelFn={this.handleCounterScroll} value={this.props.use_point_val}/>
                 </div>
                 <div className="game__player game__player--right">
@@ -202,4 +197,4 @@ function mapStateToProps(state){
     });
 };
 
-export default connect(mapStateToProps, {changeUsePointVal,changeGameID,changeOpponentName, changeScore, changeMaxPointVal, changeOpponentLamp })(Game);
+export default connect(mapStateToProps, {changeUsePointVal,changeGameID,changeOpponentName, changeScore, changeMaxPointVal, changeOpponentLamp, addNewMessage})(Game);

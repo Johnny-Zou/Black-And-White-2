@@ -37,6 +37,7 @@ export function joinGameRoom(io, socket, data, callback){
 	socket.name = data.name;
 	socket.game_id = game_id;
 	socket.join(game_id);
+	updateMessage(io,socket,game_id,"systemMessage",null, socket.name + " has joined the room");
 
 	// call callback
 	callback(sendData_joining);
@@ -101,7 +102,7 @@ export function sendMessage(io, socket, data, callback){
 	var content = data.content;
 	var game_id = socket.game_id;
 	var playerIndex = global.data.gameDict[game_id].player_id_to_index(socket.id);
-	var sender = global.data.gameDict[game_id].players[playerIndex];
+	var sender = global.data.gameDict[game_id].players[playerIndex].name;
 
 	updateMessage(io,socket,game_id,"playerMessage",sender,content);
 }

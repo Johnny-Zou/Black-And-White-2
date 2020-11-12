@@ -3,133 +3,17 @@ import React, {Component} from 'react';
 // Redux
 import { connect } from 'react-redux';
 
+import { addNewMessage } from '../actions/changeGame.js';
 
 class Chat extends Component {
     constructor(props){
         super(props);
 
-        this.newMessage = this.newMessage.bind(this);
         this.handleSendMessage = this.handleSendMessage.bind(this);
 
         this.chatInputRef = React.createRef();
         this.chatContainerRef = React.createRef();
 
-        // state
-        this.state = {
-            chatLog: [
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaoshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnny"
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnny"
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnny"
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnny"
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaoshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaoshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaoshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaoshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaoshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaoshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                },
-                {
-                    "type": "playerMessage",
-                    "sender": "Johnny",
-                    "content": "Hi my name is johnnyo sidhaasdasdas asd asdasd asd asd asd asd asd asda sd asdas dasd asdas das dasd asdas das dasd asd asd asd asd asd asd oshdoashdoiash odhasod hasod ihasodihas odihsao diahsdo iahsdoia shdoais hdsoaidh "
-                }
-            ]
-        };
-    }
-
-    newMessage(type,sender,content){
-        var newChatLog = this.state.chatLog;
-        newChatLog.push({
-            "type": type,
-            "sender": sender,
-            "content": content
-        });
-        this.setState({chatLog: newChatLog});
-        this.chatContainerRef.current.scrollTop = this.chatContainerRef.current.scrollHeight;
     }
 
     handleSendMessage(e){
@@ -139,14 +23,18 @@ class Chat extends Component {
         this.props.sendMsgFn(message);
     }
 
-    render(){
+    componentDidUpdate(){
+        this.chatContainerRef.current.scrollTop = this.chatContainerRef.current.scrollHeight;
+    }
 
+    render(){
         // Create chat list element
         const chatList = [];
-        this.state.chatLog.forEach(function(message, i){
-            if(message.type === "serverAnnouncement"){
+        console.log(this.props.chatLog);
+        this.props.chatLog.forEach(function(message, i){
+            if(message.type === "systemMessage"){
                 chatList.push(
-                    <li className="msg msg--serverAnnouncement" key={i}>
+                    <li className="msg msg--systemMessage" key={i}>
                         {message.content}
                     </li>
                 );
@@ -181,15 +69,9 @@ class Chat extends Component {
 
 function mapStateToProps(state){
     return({
-        name: state.game.name,
-        opponent_name: state.game.opponent_name,
-        game_id: state.game.game_id,
-        max_points: state.game.max_points,
-        use_point_val: state.game.use_point_val,
-        score: state.game.score,
-        opponent_lamps: state.game.opponent_lamps
+        chatLog: state.game.chatLog,
     });
 };
 
-export default connect(mapStateToProps, {})(Chat);
+export default connect(mapStateToProps, {addNewMessage})(Chat);
 

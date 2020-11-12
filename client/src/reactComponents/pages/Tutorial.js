@@ -19,6 +19,12 @@ class Tutorial extends Component {
     render(){
         return(
             <div className="page page__tutorial">
+                <div className="page_content_scrollWrapper">
+                    <div className="page__title">How to Play</div>
+                    <div className="page__content">
+
+                    </div>
+                </div>
                 <Button type="white" title="Back" clickFn={this.handlePageChange.bind(this,"Menu")}/>
             </div>
         );
