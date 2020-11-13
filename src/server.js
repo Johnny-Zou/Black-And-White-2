@@ -35,7 +35,7 @@ io.on('connection', function(socket){
 	// console.log("Failed to connect to database with error:", err);
 // }).finally(function(){
 	server.listen(PORT, () => {
-		console.log('Example app listening on port ${ PORT }!');
+		console.log('Listening on port ' + PORT + "!");
 	});	
 // });
 

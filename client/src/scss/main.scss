@@ -17,6 +17,7 @@ $pale_white: rgba(210, 210, 210, 1);
 
 // Pages
 @import "pages/game";
+@import "pages/page";
 
 
 
@@ -51,16 +52,4 @@ body {
 	display: flex;
 
 	flex-direction: column;
-	.page {
-		position: relative;
-		display: flex;
-
-		// Current Component
-		flex-grow: 1;
-		// Children Components
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-
 }

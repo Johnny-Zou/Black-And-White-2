@@ -84,6 +84,7 @@ class Game extends Component {
             points: this.props.use_point_val
         }
         clientSocket.emit("playPoints",sendData);
+        this.props.changeUsePointVal(0);
     }
 
     sendMessage(newMessage){

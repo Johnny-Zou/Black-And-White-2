@@ -1,6 +1,6 @@
 # Black And White II - IN PROGRESS
 
-This is a two player death match game that orginated from season 3 of _The Genius_. I do not take any credit for the creation of this game. This app was made using winSock to communicate between two computers (server and client) and requires 2 windows computers to play.
+This is a two player death match game that orginated from season 3 of _The Genius_. I do not take any credit for the creation of this game. This app was made using NodeJS and socketIO to communicate between two computers (server and client) and requires 2 players to play.
 
 
 ## How to play

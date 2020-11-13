@@ -70,10 +70,8 @@ class Game {
 		// Input: newPlayer - changes to a specific player index if provided, otherwise if -1, changes to player not playing
 		// Returns: the index of the new player playing
 	changePlayer(newPlayer){
-		if (newPlayer == -1){
+		if (newPlayer == -1 || newPlayer == 2){
 			this.currPlayer = (this.currPlayer + 1) % 2;
-		} else if(newPlayer == 2) {
-			//tie
 		} else {
 			this.currPlayer = newPlayer;
 		}
@@ -156,22 +154,22 @@ class Game {
 	checkPlayerCanPlay(player_id,points){
 		var index = this.player_id_to_index(player_id);
 		if (index === -1){
-			console.log("1")
+			// console.log("1")
 			return false;
 		}
 
 		if (this.round_pts[index] != -1) {
-			console.log("2")
+			// console.log("2")
 			return false;
 		}
 
 		if(index != this.currPlayer) {
-			console.log("3")
+			// console.log("3")
 			return false;
 		}
 
 		if(this.total_pts[index] < points) {
-			console.log("4")
+			// console.log("4")
 			return false;
 		}
 

@@ -1,0 +1,63 @@
+.page {
+	position: relative;
+	display: flex;
+
+	// Current Component
+	flex-grow: 1;
+	// Children Components
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	.page_content_scrollWrapper {
+		overflow-y: scroll;
+		height: 60vh;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+	
+	.page__content {
+		color: white;
+		width: 80vw;
+		.page__title {
+			font-size: 2em;
+			font-weight: 600;
+			color: white;
+			padding-bottom: 15px;
+			text-align: center;
+		}
+		.page__subtitle {
+			font-size: 1.6em;
+			font-weight: 600;
+			color: white;
+			text-align: center;
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
+		p{
+			text-align: center;
+			padding-bottom: 10px;
+		}
+
+		ul, ol{
+			width: 50%;
+			left: 50%;
+			position: relative;
+			transform: translateX(-50%);
+			ul, ol{
+				width: 80%;
+			}
+		}
+
+		ul {
+			list-style: disc;
+		}
+
+		a {
+			font-weight: 600;
+			color: #89b4c4;
+			text-decoration: none;
+		}
+	}
+}
