@@ -20,8 +20,16 @@ class Credits extends Component {
     render(){
         return(
             <div className="page page__credits">
-                <p>This is a two player death match game that orginated from season 3 of <i>The Genius</i>. I do not take any credit for the creation of this game. This app was made using winSock to communicate between two computers (server and client) and requires 2 windows computers to play.</p>
-
+                <div className="page_content_scrollWrapper">
+                    <div className="page__FadeInOut"></div>
+                    <div className="page__content">
+                        <p>This is a two player death match game that orginated from season 3 of <i>The Genius</i>. I do not take any credit for the creation of this game. This app was made using NodeJS, ExpressJS and socketIO to communicate between the client and the server. The front-end is created in React with redux for state managment.</p>
+                        <br></br>
+                        <br></br>
+                        <p>Source code for this project can be found <a href="https://github.com/Johnny-Zou/Black-And-White-2">here</a></p>
+                        <p>Developer: Johnny Zou</p>
+                    </div>
+                </div>
                 <Button type="white" title="Back" clickFn={this.handlePageChange.bind(this,"Menu")}/>
             </div>
         );

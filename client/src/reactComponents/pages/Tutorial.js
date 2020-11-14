@@ -20,6 +20,7 @@ class Tutorial extends Component {
         return(
             <div className="page page__tutorial">
                 <div className="page_content_scrollWrapper">
+                    <div className="page__FadeInOut"></div>
                     <div className="page__content">
                         <div className="page__title">How to Play</div>
                         <p>The rules are simple, each player starts off with a total of 99 points. The player who starts the first round is decided randomly. During each round, each player uses a portion of their points in an attempt to play a higher number than the opposing player. The first player to win more than 5 rounds wins the game. If neither player reaches 5 wins then the player that has won the most rounds by the end of the 9th round will win. Each round occurs as follows</p>

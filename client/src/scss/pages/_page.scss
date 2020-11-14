@@ -11,13 +11,24 @@
 
 	.page_content_scrollWrapper {
 		overflow-y: scroll;
-		height: 60vh;
+		max-height: 60vh;
 		&::-webkit-scrollbar {
 			display: none;
 		}
 	}
+	.page__FadeInOut{
+		pointer-events: none;
+		position: absolute;
+		background: linear-gradient(to bottom, black, transparent 15%, transparent 50%, transparent 85%, black);
+		max-height: 60vh;
+		height: 100%;
+		width: 80vw;
+		z-index: 1;
+	}
 	
 	.page__content {
+		padding-top: 50px;
+		padding-bottom: 50px;
 		color: white;
 		width: 80vw;
 		.page__title {
