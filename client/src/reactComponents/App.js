@@ -15,10 +15,23 @@ import Footer from './Footer.js';
 
 // Redux
 import { connect } from 'react-redux';
+import { changePage } from './actions/changePage.js';
 
 class App extends Component {
     constructor(props){
         super(props);
+
+        // Routing
+        var path = window.location.pathname.toLowerCase()
+
+        if (path === "/credits"){
+            this.props.changePage("Credits");
+        } else if (path === "/tutorial"){
+            this.props.changePage("Tutorial");
+        } else if (path.substring(0,5) === "/game"){
+            this.props.changePage("Join");
+        }
+           
     }
 
     render(){
@@ -53,4 +66,4 @@ function mapStateToProps(state){
     });
 };
 
-export default connect(mapStateToProps, { })(App);
+export default connect(mapStateToProps, { changePage })(App);

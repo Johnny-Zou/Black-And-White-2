@@ -32,6 +32,10 @@ class Join extends Component {
         this.props.changePage("Game");
     }
 
+    componentDidMount(){
+        this.gameIDRef.current.inputRef.current.value = window.location.pathname.substring(7);
+    }
+
     render(){
         return(
             <div className="page page__join">
