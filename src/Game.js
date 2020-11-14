@@ -8,7 +8,8 @@ class Game {
 
 
 		// Game state
-		this.gameState = "WAITING"
+		this.gameState = "WAITING";
+		this.round = 0;
 		this.currPlayer = -1;
 		this.score = [0,0];
 		this.round_pts = [-1,-1];
@@ -46,8 +47,16 @@ class Game {
 	startGame(){
 		// Random number between 0 and 1
 		this.currPlayer = Math.floor(Math.random() * 2);
-
 		return this.players[this.currPlayer];
+	}
+
+	// Increment round number
+		// Description: increments the round counter and then returns the next round
+		// Inputs: none
+		// Returns: new round number
+	incrementRound(){
+		this.round += 1;
+		return this.round;
 	}
 
 	// Play Points
@@ -115,6 +124,23 @@ class Game {
 		}
 	}
 
+	// Get Overall Game Winner
+		// Description: returns the id of the overall winner
+		// Input: none
+		// Returns: 0 if this.players[0] won, 1 if this.players[1] won, 2 on tie, -1 on error
+	getGameWinner(){
+		assert.strictEqual(this.gameEnd(),true,"ERROR: (class Game, fn getGameWinner) Game has not ended yet");
+
+		if(this.score[0] > this.score[1]){
+			return 0;
+		} else if (this.score[0] < this.score[1]) {
+			return 1;
+		} else {
+			// tie
+			return 2;
+		}
+	}
+
 	// Update Score
 		// Description: Updates the score for after a round has been completed
 		// Input: winner - the player index that won the previous round
@@ -143,7 +169,7 @@ class Game {
 			return true;
 		}
 
-		if (this.score[0] + this.score[1] == 9) {
+		if (this.round >= 9) {
 			return true;
 		}
 
@@ -170,6 +196,10 @@ class Game {
 
 		if(this.total_pts[index] < points) {
 			// console.log("4")
+			return false;
+		}
+
+		if(this.gameState === "WAITING" || this.gameState === "ENDED"){
 			return false;
 		}
 

@@ -38,15 +38,19 @@ class Chat extends Component {
                         {message.content}
                     </li>
                 );
-            }
-            else if (message.type === "playerMessage") {
+            } else if (message.type === "playerMessage") {
                 chatList.push(
                     <li className="msg msg--chatMessage" key={i}>
                         <strong>{message.sender}: </strong>{message.content}
                     </li>
                 );
-            }
-            
+            } else if (message.type === "roundIndicator") {
+                chatList.push(
+                    <li className="msg msg--roundIndicator" key={i}>
+                        <strong>Round {message.content}</strong>
+                    </li>
+                );
+            }            
         });
 
         return(

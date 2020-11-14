@@ -1,6 +1,6 @@
 export function joinGameRoom(io, socket, data, callback){
 	var startGame = false;
-	if(data.game_id == ""){
+	if(data.game_id === ""){
 		// create a new gameroom
 		var game_id = global.data.createNewGame();
 
@@ -19,6 +19,16 @@ export function joinGameRoom(io, socket, data, callback){
 			io.emit("error", errorData);
 			return;
 		}
+
+		if (global.data.gameDict[game_id].players.length === 2){
+			var errorData = {
+				"id": 2,
+				"msg": "The game id " + game_id + " is full"
+			}
+			io.emit("error", errorData);
+			return;
+		}
+
 		// Tell the player waiting the name of the opponent who has joined
 		var sendData_waiting = {
 			"opponent_name": data.name
@@ -48,34 +58,57 @@ export function joinGameRoom(io, socket, data, callback){
 		var sendData_starting = {
 			startPlayer: startPlayer.name
 		};
-		global.data.gameDict[game_id].changeGameState("PLAYING_1");
 		io.to(game_id).emit("startGame",sendData_starting);
+
+		// change state after 3 seconds
+        setTimeout(() => {
+        	global.data.gameDict[game_id].changeGameState("PLAYING_1");
+        	global.data.gameDict[game_id].incrementRound();
+        	updateMessage(io,socket,game_id,"roundIndicator",null, global.data.gameDict[game_id].round);
+        },4000)
 	}
 };
 
 export function playPoints(io, socket, data, callback) {
 	// Check that the correct player is playing the points
 	var game_id = socket.game_id;
-	var currentPlayer = global.data.gameDict[game_id].currPlayer;
 
+	// check player can play
 	if(!global.data.gameDict[game_id].checkPlayerCanPlay(socket.id,data.points)) {
-		// Error wrong player playing
-		updateMessage(io,socket,socket.id,"systemMessage",null, "Wait your turn!");
-		
+		var player_index = global.data.gameDict[game_id].player_id_to_index(socket.id);
+		var curr_player = global.data.gameDict[game_id].currPlayer;
+		if(global.data.gameDict[game_id].gameState === "ENDED"){ // Error game is over
+			updateMessage(io,socket,socket.id,"systemMessage",null, "Game is over already!");
+		} else if(global.data.gameDict[game_id].gameState === "WAITING"){
+			updateMessage(io,socket,socket.id,"systemMessage",null, "Game has not started yet!");
+		} else if( player_index !== curr_player ){ // Error wrong player playing
+			updateMessage(io,socket,socket.id,"systemMessage",null, "Wait your turn!");
+		} 
 		return;
 	}
 
+	var currentPlayer = global.data.gameDict[game_id].currPlayer;
+	var currentPlayerName = global.data.gameDict[game_id].players[currentPlayer].name;
+
+	// Play the points
 	global.data.gameDict[game_id].playPoints(socket.id,data.points);
 
+	// update player their new total and how many points they played
 	var newTotal = global.data.gameDict[game_id].total_pts[global.data.gameDict[game_id].currPlayer];
 	updateMessage(io,socket,socket.id,"systemMessage",null, "You played " + data.points + " points! Total is now at " + newTotal);
 
 	if (global.data.gameDict[game_id].gameState === "PLAYING_1"){
-		var currPlayer_id = global.data.gameDict[game_id].changePlayer(-1);
+		var nextPlayer_id = global.data.gameDict[game_id].changePlayer(-1);
 
-		// Broadcast message to update whos playing
-		// var currPlayer_name = global.data.gameDict[game_id].players[currPlayer_id].name;
-		// updateMessage(io,socket,game_id,"systemMessage",null, currPlayer_name + " to play");
+		var nextPlayer_socketId = global.data.gameDict[game_id].players[nextPlayer_id].id
+		// update player on color of play
+		if(data.points >= 10) {
+			// WHITE
+			updateMessage(io,socket,nextPlayer_socketId,"systemMessage",null, currentPlayerName + " played WHITE");
+		} else {
+			// BLACK
+			updateMessage(io,socket,nextPlayer_socketId,"systemMessage",null, currentPlayerName + " played BLACK");
+		}
 
 		global.data.gameDict[game_id].changeGameState("PLAYING_2");
 
@@ -87,7 +120,7 @@ export function playPoints(io, socket, data, callback) {
 		// Update winner
 		global.data.gameDict[game_id].updateScore(winner);
 		global.data.gameDict[game_id].resetRound();
-		var currPlayer_id = global.data.gameDict[game_id].changePlayer(winner);
+		var nextPlayer_id = global.data.gameDict[game_id].changePlayer(winner);
 
 		// Broadcast who won previous round
 		if (winner === 2){
@@ -104,22 +137,27 @@ export function playPoints(io, socket, data, callback) {
 		var score_string = current_score[0] + " (" + p0_name + ") : " + current_score[1] + " (" + p1_name + ")";
 		updateMessage(io,socket,game_id,"systemMessage",null, "Current Score is at: " + score_string);
 
-		// Broadcast message to update who's playing
-		// var currPlayer_name = global.data.gameDict[game_id].players[currPlayer_id].name;
-		// updateMessage(io,socket,game_id,"systemMessage",null, currPlayer_name + " to play");
+		updateClientLamps(io,socket,game_id,currentPlayer);
+		updateClientScore(io,socket,game_id,winner);
 
 		if (global.data.gameDict[game_id].gameEnd()){
 			global.data.gameDict[game_id].changeGameState("ENDED");
-			// get the winner name
-			var game_winner_name = winner_name;
-			updateClientLamps(io,socket,game_id,currentPlayer);
-			updateClientScore(io,socket,game_id,winner);
-			updateClientInfo(io,socket,game_id,"Game Over! " + game_winner_name + " has won the game");
-			updateMessage(io,socket,game_id,"systemMessage",null, game_winner_name + " won the game");
+			// get the game winner id
+			var game_winner_id = global.data.gameDict[game_id].getGameWinner();
+
+			if (game_winner_id === 2){
+				//tie
+				updateClientInfo(io,socket,game_id,"Game Over! Tie!");
+				updateMessage(io,socket,game_id,"systemMessage",null, "The game ended in a Tie");
+			} else {
+				var game_winner_name = global.data.gameDict[game_id].players[game_winner_id].name;
+				updateClientInfo(io,socket,game_id,"Game Over! " + game_winner_name + " has won the game");
+				updateMessage(io,socket,game_id,"systemMessage",null, game_winner_name + " won the game");
+			}
 		} else {
 			global.data.gameDict[game_id].changeGameState("PLAYING_1");
-			updateClientLamps(io,socket,game_id,currentPlayer);
-			updateClientScore(io,socket,game_id,winner);
+			global.data.gameDict[game_id].incrementRound();
+			updateMessage(io,socket,game_id,"roundIndicator",null, global.data.gameDict[game_id].round);
 			updateClientInfo(io,socket,game_id,global.data.gameDict[game_id].players[global.data.gameDict[game_id].currPlayer].name + " to play");
 		}
 	}	
@@ -155,7 +193,7 @@ function updateClientLamps(io,socket,game_id,lastPlayer){
 }
 
 function updateClientScore(io,socket,game_id,winner){
-	if(winner == 2){
+	if(winner === 2){
 		return;
 	}
 
